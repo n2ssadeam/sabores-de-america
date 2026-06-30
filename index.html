@@ -73,7 +73,9 @@
         .pais-link { text-decoration: none; color: #333; display: flex; align-items: center; font-size: 0.85em; transition: transform 0.2s; }
         .pais-link:hover { transform: scale(1.05); color: #1F7FDD; font-weight: bold; }
         .bandera { width: 24px; margin-right: 10px; border: 1px solid #ddd; }
-        .video-status { margin-left: 8px; font-size: 0.9em; }
+        
+        /* Estilos actualizados para los iconos más grandes */
+        .video-status { margin-left: 8px; font-size: 1.3em; font-weight: bold; }
         .tiene-video { color: green; }
         .sin-video { color: red; }
     </style>
@@ -182,23 +184,22 @@
             </div>
         </div>
     </section>
-    </div>  <script>
-        // Países que tienen video — agregar el código ISO aquí cuando haya contenido
-        const conVideo = new Set([
-            // Ejemplos: 'ar', 'mx', 'br'
-        ]);
-
+    </div>  
+    <script>
         function agregarIndicadores() {
             document.querySelectorAll('.pais-link').forEach(link => {
-                const img = link.querySelector('.bandera');
-                if (!img) return;
-                const src = img.src;
-                const match = src.match(/flags\/4x3\/([a-z]+)\.svg/);
-                if (!match) return;
-                const codigo = match[1];
+                const hrefValue = link.getAttribute('href');
                 const span = document.createElement('span');
-                span.className = 'video-status ' + (conVideo.has(codigo) ? 'tiene-video' : 'sin-video');
-                span.textContent = conVideo.has(codigo) ? '✔' : '✘';
+                
+                // Si el href es exactamente "#", añade la X. Si es otra ruta (como argentina.html), añade el check.
+                if (hrefValue === '#') {
+                    span.className = 'video-status sin-video';
+                    span.textContent = '✘';
+                } else {
+                    span.className = 'video-status tiene-video';
+                    span.textContent = '✔';
+                }
+                
                 link.appendChild(span);
             });
         }
@@ -211,6 +212,7 @@
             });
         }
 
+        // Ejecutar la función al cargar la página
         agregarIndicadores();
     </script>
 </body>
