@@ -6,34 +6,133 @@
     	
 	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌎</text></svg>">
 	
-	
     <style>
         body { font-family: 'Verdana', sans-serif; margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
         .main-header { 
             display: flex; align-items: center; flex-shrink: 0;
-            padding: 20px 5%; background-color: #b3e5fc; border-bottom: 6px solid #ccc;
-            cursor: pointer; /* Mano al pasar por encima del header */
+            padding: 15px 5% 10px 5%; background-color: #b3e5fc; border-bottom: 6px solid #ccc;
+            cursor: pointer;
         }
         
         .logo-left { height: 135px; }
 
-        .header-title {
+        .header-center-block {
             flex: 1;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding-left: 7%;
+            overflow: hidden;
+        }
+
+        .header-title {
             font-family: 'Pacifico', cursive;
             font-size: 3em;
             color: #1F7FDD;
             text-shadow: 2px 2px 0px #fff, 3px 3px 0px #f39c12;
             letter-spacing: 1px;
             white-space: nowrap;
+            margin-bottom: 8px;
         }
         
-        .header-right { display: flex; gap: 10px; }
+        .header-right { display: flex; gap: 10px; align-self: center; }
         .flag-icon { width: 42px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
 
-        /* Wrapper que ocupa el espacio restante y no scrollea */
+        .ticker-container {
+            width: 85%;
+            max-width: 680px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #111111 0%, #222222 100%);
+            border: 2px solid #00d2ff;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.3); }
+            100% { box-shadow: 0 0 15px rgba(0, 210, 255, 0.7); }
+        }
+
+        .ticker-label {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 0.75em;
+            color: #ffffff;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 20px;
+            white-space: nowrap;
+            position: relative;
+            border-top-left-radius: 26px;
+            border-bottom-left-radius: 26px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ticker-label::before {
+            content: "★";
+            color: #f1c40f;
+            animation: star-blink 1s infinite alternate;
+        }
+
+        @keyframes star-blink {
+            0% { opacity: 0.4; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .ticker-wrap {
+            flex: 1;
+            overflow: hidden;
+            padding: 6px 0;
+        }
+
+        .ticker-move {
+            display: inline-flex;
+            white-space: nowrap;
+            gap: 70px;
+            padding-left: 100%;
+            animation: ticker-animation 20s linear infinite;
+        }
+
+        .ticker-move:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes ticker-animation {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .logo-auspiciante {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 1.05em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .logo-auspiciante:hover { 
+            transform: scale(1.15) rotate(-1deg);
+            filter: brightness(1.3) drop-shadow(0px 0px 8px cubic-bezier(0.1, 0.8, 0.3, 1));
+        }
+
+        .brand-mastellone { color: #ff3838; font-family: 'Arial Black', sans-serif; font-style: italic; }
+        .brand-zurich { color: #00a8ff; font-family: 'Helvetica', sans-serif; font-weight: bold; letter-spacing: -0.5px; }
+        .brand-ricoh { color: #ff4757; font-family: 'Impact', sans-serif; letter-spacing: 2px; }
+        .brand-amca { color: #2ecc71; font-family: 'Arial Black', sans-serif; border: 1px solid #2ecc71; padding: 0 6px; border-radius: 4px; font-size: 0.85em; }
+        .brand-victoria { color: #f1c40f; font-family: 'Georgia', serif; font-weight: bold; text-transform: none; }
+        .brand-cocacola { color: #ffffff; background-color: #e74c3c; padding: 1px 10px; border-radius: 12px; font-style: italic; font-family: 'Times New Roman', serif; font-weight: bold; }
+
         .contenido-principal {
             flex: 1;
             display: flex;
@@ -42,29 +141,35 @@
             min-height: 0;
         }
 
-        /* Fila de títulos fija — nunca scrollea */
         .titulos-fijos {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            padding: 0 5%;
+            padding: 10px 5% 0 5%;
             flex-shrink: 0;
         }
+        
         .titulos-fijos h2 {
             color: #1F7FDD; font-size: 1.1em; border-bottom: 2px solid #1F7FDD; 
             padding: 10px; margin: 0;
             background-color: #b3e5fc;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+        }
+        .titulos-fijos h2:hover {
+            background-color: #1F7FDD;
+            color: #ffffff;
         }
         
-        /* Sección de países: único elemento que scrollea */
         .contenedor-seccion { 
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; 
-            padding: 10px 5% 40px 5%; 
+            padding: 10px 5% 25px 5%; 
             flex: 1;
             overflow-y: auto;
             min-height: 0;
             align-items: start;
-            scroll-behavior: smooth; /* Hace que vuelva arriba con una animación suave */
+            scroll-behavior: smooth;
         }
 
         .columna { display: flex; flex-direction: column; }
@@ -77,17 +182,71 @@
         .pais-link:hover { transform: scale(1.05); color: #1F7FDD; font-weight: bold; }
         .bandera { width: 24px; margin-right: 10px; border: 1px solid #ddd; }
         
-        /* Estilos actualizados para los iconos más grandes */
         .video-status { margin-left: 8px; font-size: 1.3em; font-weight: bold; }
         .tiene-video { color: green; }
         .sin-video { color: red; }
+
+        #map-popup {
+            position: absolute;
+            display: none;
+            z-index: 1000;
+            background: #ffffff;
+            border: 3px solid #1F7FDD;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            width: 380px;
+            overflow: hidden;
+        }
+        
+        .popup-header {
+            background-color: #1F7FDD;
+            color: #ffffff;
+            padding: 8px 12px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        
+        .popup-title { font-weight: bold; font-size: 0.95em; }
+        
+        .popup-close {
+            background: none; border: none; color: #ffffff;
+            font-size: 1.2em; font-weight: bold; cursor: pointer;
+            padding: 0 5px; line-height: 1;
+        }
+        .popup-close:hover { color: #ffc107; }
+        
+        .popup-body { position: relative; width: 100%; height: 290px; background-color: #b3e5fc; }
+        #map-popup iframe { width: 100%; height: 100%; border: none; }
+        
+        .drag-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 10; }
     </style>
 </head>
 <body>
 
     <header class="main-header" onclick="document.querySelector('.contenedor-seccion').scrollTop = 0;">
         <img src="Logo_N2S.png" class="logo-left">
-        <div class="header-title trad" data-es="Sabores de América" data-en="Flavors of the Americas" data-fr="Saveurs des Amériques" data-pt="Sabores das Américas" data-nl="Smaken van Amerika" data-da="Amerikas Smagsoplevelser">Sabores de América</div>
+        
+        <div class="header-center-block">
+            <div class="header-title trad" data-es="Sabores de América" data-en="Flavors of the Americas" data-fr="Saveurs des Amériques" data-pt="Sabores das Américas" data-nl="Smaken van Amerika" data-da="Amerikas Smagsoplevelser">Sabores de América</div>
+            
+            <div class="ticker-container" onclick="event.stopPropagation();">
+                <div class="ticker-label trad" data-es="Sponsors" data-en="Sponsors" data-fr="Sponsors" data-pt="Patrocinadores" data-nl="Sponsors" data-da="Sponsorer">Sponsors</div>
+                <div class="ticker-wrap">
+                    <div class="ticker-move">
+                        <span class="logo-auspiciante brand-mastellone">Mastellone Hnos.</span>
+                        <span class="logo-auspiciante brand-zurich">ZURICH</span>
+                        <span class="logo-auspiciante brand-ricoh">RICOH</span>
+                        <span class="logo-auspiciante brand-amca">AMCA</span>
+                        <span class="logo-auspiciante brand-victoria">Seguros Victoria</span>
+                        <span class="logo-auspiciante brand-cocacola">Coca-Cola</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="header-right">
             <img src="https://flagicons.lipis.dev/flags/4x3/es.svg" class="flag-icon" onclick="event.stopPropagation(); traducir('es')">
             <img src="https://flagicons.lipis.dev/flags/4x3/gb.svg" class="flag-icon" onclick="event.stopPropagation(); traducir('en')">
@@ -100,10 +259,10 @@
 
     <div class="contenido-principal">
     <div class="titulos-fijos">
-        <h2 class="trad" data-es="América del Norte" data-en="North America" data-fr="Amérique du Nord" data-pt="América do Norte" data-nl="Noord-Amerika" data-da="Nordamerika">América del Norte</h2>
-        <h2 class="trad" data-es="América Central" data-en="Central America" data-fr="Amérique centrale" data-pt="América Central" data-nl="Centraal-Amerika" data-da="Mellemamerika">América Central</h2>
-        <h2 class="trad" data-es="Caribe" data-en="Caribbean" data-fr="Caraïbes" data-pt="Caribe" data-nl="Caraïben" data-da="Caribien">Caribe</h2>
-        <h2 class="trad" data-es="América del Sur" data-en="South America" data-fr="Amérique du Sud" data-pt="América do Sul" data-nl="Zuid-Amerika" data-da="Sydamerika">América del Sur</h2>
+        <h2 class="trad" data-es="América del Norte" data-en="North America" data-fr="Amérique du Nord" data-pt="América do Norte" data-nl="Noord-Amerika" data-da="Nordamerika" onclick="abrirMapaRegion(event)">América del Norte</h2>
+        <h2 class="trad" data-es="América Central" data-en="Central America" data-fr="Amérique centrale" data-pt="América Central" data-nl="Centraal-Amerika" data-da="Mellemamerika" onclick="abrirMapaRegion(event)">América Central</h2>
+        <h2 class="trad" data-es="Caribe" data-en="Caribbean" data-fr="Caraïbes" data-pt="Caribe" data-nl="Caraïben" data-da="Caribien" onclick="abrirMapaRegion(event)">Caribe</h2>
+        <h2 class="trad" data-es="América del Sur" data-en="South America" data-fr="Amérique do Sul" data-pt="América do Sul" data-nl="Zuid-Amerika" data-da="Sydamerika" onclick="abrirMapaRegion(event)">América del Sur</h2>
     </div>
 
     <section class="contenedor-seccion">
@@ -152,7 +311,7 @@
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/tc.svg" class="bandera"> <span class="trad" data-es="Islas Turcas y Caicos" data-en="Turks and Caicos" data-fr="Îles Turques-et-Caïques" data-pt="Ilhas Turcas e Caicos" data-nl="Turks- en Caicoseilanden" data-da="Turks- og Caicosøerne">Islas Turcas y Caicos</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/vg.svg" class="bandera"> <span class="trad" data-es="Islas Vírgenes Británicas" data-en="British Virgin Islands" data-fr="Îles Vierges britanniques" data-pt="Ilhas Virgens Britânicas" data-nl="Britse Maagdeneilanden" data-da="De Britiske Jomfruøer">Islas Vírgenes Británicas</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/vi.svg" class="bandera"> <span class="trad" data-es="Islas Vírgenes de EE. UU." data-en="U.S. Virgin Islands" data-fr="Îles Vierges des États-Unis" data-pt="Ilhas Virgens dos EUA" data-nl="Amerikaanse Maagdeneilanden" data-da="De Amerikanske Jomfruøer">Islas Vírgenes de EE. UU.</span></a></li>
-                <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/jm.svg" class="bandera"> <span class="trad" data-es="Jamaica" data-en="Jamaica" data-fr="Jamaïque" data-pt="Jamaica" data-nl="Jamaica" data-da="Jamaica">Jamaica</span></a></li>
+                <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/jm.svg" class="bandera"> <span class="trad" data-es="Jamaica" data-en="Jamaica" data-fr="Jamaica" data-pt="Jamaica" data-nl="Jamaica" data-da="Jamaica">Jamaica</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/mq.svg" class="bandera"> <span class="trad" data-es="Martinica" data-en="Martinique" data-fr="Martinique" data-pt="Martinica" data-nl="Martinique" data-da="Martinique">Martinica</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/ms.svg" class="bandera"> <span class="trad" data-es="Montserrat" data-en="Montserrat" data-fr="Montserrat" data-pt="Montserrat" data-nl="Montserrat" data-da="Montserrat">Montserrat</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/pr.svg" class="bandera"> <span class="trad" data-es="Puerto Rico" data-en="Puerto Rico" data-fr="Porto Rico" data-pt="Porto Rico" data-nl="Puerto Rico" data-da="Puerto Rico">Puerto Rico</span></a></li>
@@ -176,7 +335,7 @@
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/cl.svg" class="bandera"> <span class="trad" data-es="Chile" data-en="Chile" data-fr="Chili" data-pt="Chile" data-nl="Chili" data-da="Chile">Chile</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/co.svg" class="bandera"> <span class="trad" data-es="Colombia" data-en="Colombia" data-fr="Colombie" data-pt="Colômbia" data-nl="Colombia" data-da="Colombia">Colombia</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/ec.svg" class="bandera"> <span class="trad" data-es="Ecuador" data-en="Ecuador" data-fr="Équateur" data-pt="Equador" data-nl="Ecuador" data-da="Ecuador">Ecuador</span></a></li>
-                <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/gf.svg" class="bandera"> <span class="trad" data-es="Guayana Francesa" data-en="French Guiana" data-fr="Guyane française" data-pt="Guiana Francesa" data-nl="Frans-Guyana" data-da="Fransk Guyana">Guayana Francesa</span></a></li>
+                <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/gf.svg" class="bandera"> <span class="trad" data-es="Guayana Francesa" data-en="French Guiana" data-fr="Guyane française" data-pt="Guayana Francesa" data-nl="Frans-Guyana" data-da="Frans Guyana">Guayana Francesa</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/gy.svg" class="bandera"> <span class="trad" data-es="Guyana" data-en="Guyana" data-fr="Guyana" data-pt="Guiana" data-nl="Guyana" data-da="Guyana">Guyana</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/py.svg" class="bandera"> <span class="trad" data-es="Paraguay" data-en="Paraguay" data-fr="Paraguay" data-pt="Paraguai" data-nl="Paraguay" data-da="Paraguay">Paraguay</span></a></li>
                 <li><a href="#" class="pais-link"><img src="https://flagicons.lipis.dev/flags/4x3/pe.svg" class="bandera"> <span class="trad" data-es="Perú" data-en="Peru" data-fr="Pérou" data-pt="Peru" data-nl="Peru" data-da="Peru">Perú</span></a></li>
@@ -188,13 +347,26 @@
         </div>
     </section>
     </div>  
+
+    <div id="map-popup">
+        <div class="popup-header" id="popup-drag-handle">
+            <span class="popup-title"></span>
+            <button class="popup-close" onclick="cerrarMapa()">×</button>
+        </div>
+        <div class="popup-body">
+            <div class="drag-overlay" id="drag-overlay"></div>
+            <iframe id="map-iframe" src="about:blank"></iframe>
+        </div>
+    </div>
+
     <script>
-        function agregarIndicadores() {
+        let idiomaActual = 'es';
+
+        function agregarIndicators() {
             document.querySelectorAll('.pais-link').forEach(link => {
                 const hrefValue = link.getAttribute('href');
                 const span = document.createElement('span');
                 
-                // Si el href es exactamente "#", añade la X. Si es otra ruta (como argentina.html), añade el check.
                 if (hrefValue === '#') {
                     span.className = 'video-status sin-video';
                     span.textContent = '✘';
@@ -204,10 +376,55 @@
                 }
                 
                 link.appendChild(span);
+
+                link.addEventListener('contextmenu', function(event) {
+                    event.preventDefault(); 
+                    const nombrePais = link.querySelector('.trad').textContent;
+                    mostrarMapa(event.pageX, event.pageY, nombrePais, 5); 
+                });
             });
         }
 
+        function mostrarMapa(x, y, nombre, zoom) {
+            const popup = document.getElementById('map-popup');
+            const titulo = popup.querySelector('.popup-title');
+            const iframe = document.getElementById('map-iframe');
+            
+            titulo.textContent = nombre;
+            
+            // 1. Limpieza absoluta previa para que refresque la sesión del frame
+            iframe.src = "about:blank";
+            
+            // 2. Corregido: Usamos el endpoint '/maps?' con parámetro 'q' específico de geolocalización.
+            // Esto permite embeberlo sin disparar la restricción SAMEORIGIN de Google.
+            setTimeout(() => {
+                iframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(nombre)}&hl=${idiomaActual}&z=${zoom}&output=embed`;
+            }, 50);
+            
+            popup.style.left = (x + 10) + 'px';
+            popup.style.top = (y + 10) + 'px';
+            popup.style.display = 'block';
+        }
+
+        function abrirMapaRegion(event) {
+            event.stopPropagation();
+            const nombreRegion = event.currentTarget.textContent;
+            
+            let zoomRegion = 3;
+            if (nombreRegion.includes("Caribe") || nombreRegion.includes("Central")) {
+                zoomRegion = 4; 
+            }
+            
+            mostrarMapa(event.pageX, event.pageY, nombreRegion, zoomRegion);
+        }
+
+        function cerrarMapa() {
+            document.getElementById('map-popup').style.display = 'none';
+            document.getElementById('map-iframe').src = "about:blank"; 
+        }
+
         function traducir(lang) {
+            idiomaActual = lang; 
             const elementos = document.querySelectorAll('.trad');
             elementos.forEach(el => {
                 const nuevoTexto = el.getAttribute('data-' + lang);
@@ -215,8 +432,44 @@
             });
         }
 
-        // Ejecutar la función al cargar la página
-        agregarIndicadores();
+        const popup = document.getElementById('map-popup');
+        const handle = document.getElementById('popup-drag-handle');
+        const overlay = document.getElementById('drag-overlay');
+
+        let xActual = 0, yActual = 0, xInicial = 0, yInicial = 0;
+        let seEstaArrastrando = false;
+
+        handle.addEventListener('mousedown', arrastreIniciar);
+
+        function arrastreIniciar(e) {
+            e.preventDefault();
+            xInicial = e.clientX;
+            yInicial = e.clientY;
+            seEstaArrastrando = true;
+            overlay.style.display = 'block';
+            document.addEventListener('mousemove', arrastrarVentana);
+            document.addEventListener('mouseup', arrastreDetener);
+        }
+
+        function arrastrarVentana(e) {
+            if (!seEstaArrastrando) return;
+            e.preventDefault();
+            xActual = xInicial - e.clientX;
+            yActual = yInicial - e.clientY;
+            xInicial = e.clientX;
+            yInicial = e.clientY;
+            popup.style.top = (popup.offsetTop - yActual) + "px";
+            popup.style.left = (popup.offsetLeft - xActual) + "px";
+        }
+
+        function arrastreDetener() {
+            seEstaArrastrando = false;
+            overlay.style.display = 'none';
+            document.removeEventListener('mousemove', arrastrarVentana);
+            document.removeEventListener('mouseup', arrastreDetener);
+        }
+
+        agregarIndicators();
     </script>
 </body>
 </html>
