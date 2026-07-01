@@ -377,11 +377,19 @@
                 
                 link.appendChild(span);
 
+                // Tooltip inicial nativo para los países (Español)
+                link.setAttribute('title', 'Click derecho para ver el mapa');
+
                 link.addEventListener('contextmenu', function(event) {
                     event.preventDefault(); 
                     const nombrePais = link.querySelector('.trad').textContent;
                     mostrarMapa(event.pageX, event.pageY, nombrePais, 5); 
                 });
+            });
+
+            // Tooltip inicial nativo para las regiones (Español)
+            document.querySelectorAll('.titulos-fijos h2').forEach(titulo => {
+                titulo.setAttribute('title', 'Click izquierdo para ver el mapa');
             });
         }
 
@@ -392,12 +400,10 @@
             
             titulo.textContent = nombre;
             
-            // 1. Limpieza absoluta previa para que refresque la sesión del frame
             iframe.src = "about:blank";
             
-            // 2. Corregido: Usamos el endpoint '/maps?' con parámetro 'q' específico de geolocalización.
-            // Esto permite embeberlo sin disparar la restricción SAMEORIGIN de Google.
             setTimeout(() => {
+                // CORRECCIÓN AQUÍ: Se cambió a la URL de embed estándar de Google Maps
                 iframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(nombre)}&hl=${idiomaActual}&z=${zoom}&output=embed`;
             }, 50);
             
@@ -429,6 +435,28 @@
             elementos.forEach(el => {
                 const nuevoTexto = el.getAttribute('data-' + lang);
                 if (nuevoTexto) { el.innerText = nuevoTexto; }
+            });
+
+            // Diccionario para los mensajes de los tooltips segun el idioma seleccionado
+            const mensajes = {
+                'es': { region: 'Click izquierdo para ver el mapa', pais: 'Click derecho para ver el mapa' },
+                'en': { region: 'Left-click to view the map', pais: 'Right-click to view the map' },
+                'fr': { region: 'Clic gauche pour voir la carte', pais: 'Clic droit pour voir la carte' },
+                'pt': { region: 'Clique esquerdo para ver o mapa', pais: 'Clique direito para ver o mapa' },
+                'nl': { region: 'Links klikken om de kaart te bekijken', pais: 'Rechts klikken om de kaart te bekijken' },
+                'da': { region: 'Venstreklik for at se kortet', pais: 'Højreklik for at se kortet' }
+            };
+
+            const textosDefinidos = mensajes[lang] || mensajes['en'];
+
+            // Actualizar tooltips dinamicamente en las regiones
+            document.querySelectorAll('.titulos-fijos h2').forEach(titulo => {
+                titulo.setAttribute('title', textosDefinidos.region);
+            });
+
+            // Actualizar tooltips dinamicamente en los paises
+            document.querySelectorAll('.pais-link').forEach(link => {
+                link.setAttribute('title', textosDefinidos.pais);
             });
         }
 
